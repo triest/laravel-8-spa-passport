@@ -1,11 +1,36 @@
 require('./bootstrap');
+import Vue from 'vue'
+window.Vue = require('vue');
+import Vuex from 'vuex';
 
-import { createApp } from 'vue'
-import App from './components/App.vue'
+Vue.use(Vuex);
 
-export const eventBus = createApp(App)
 
-createApp(App).mount('#app')
+import App from './App.vue';
+import VueAxios from 'vue-axios';
+import VueRouter from 'vue-router';
+import axios from 'axios';
+import { routes } from './routes';
 
-Vue.component('app',require('./components/App').default)
 
+Vue.use(VueRouter);
+Vue.use(VueAxios, axios);
+Vue.use(Vuex);
+window.axios = require('axios');
+
+
+
+const router = new VueRouter({
+    base: '/app',
+    mode: 'history',
+    routes: routes
+});
+
+
+
+
+const app = new Vue({
+    el: '#app',
+    router: router,
+    render: h => h(App),
+});
