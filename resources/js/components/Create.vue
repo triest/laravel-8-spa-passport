@@ -7,11 +7,11 @@
                 <form @submit.prevent="addProduct">
                     <div class="form-group">
                         <label>Name</label>
-                        <input type="text" class="form-control" v-model="product.name">
+                        <input type="text" class="form-control" v-model="product.title">
                     </div>
                     <div class="form-group">
                         <label>Detail</label>
-                        <input type="text" class="form-control" v-model="product.detail">
+                        <input type="text" class="form-control" v-model="product.description">
                     </div>
                     <button type="submit" class="btn btn-primary">Create</button>
                     <router-link :to="{name: 'home'}" class="btn btn-success">Back</router-link>
@@ -43,7 +43,7 @@ export default {
         },
         addProduct() {
             this.axios
-                .post('/api/products', this.product)
+                .post('/api/post', this.product)
                 .then(response => (
                     this.$router.push({name: 'home'})
                 ))

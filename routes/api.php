@@ -21,12 +21,8 @@ Route::middleware('api')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    }
-    );
-
     Route::apiResource('post', \App\Http\Controllers\PostController::class);
-});
+}
+);
 
 

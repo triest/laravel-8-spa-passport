@@ -2,25 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRegistrationRequest;
-use App\Providers\RouteServiceProvider;
-use App\Models\User;
-use Illuminate\Http\Request;
 
+use App\Http\Requests\Auth\UserRegistrationRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
 
 
-    public function showRegistrationForm(){
+    public function showRegistrationForm()
+    {
         return view('auth.register');
     }
 
 
-    public function register (UserRegistrationRequest $request)
+    public function register(UserRegistrationRequest $request)
     {
         $user = new User();
         $user->name = $request->name;
