@@ -2124,12 +2124,15 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     saveForm: function saveForm() {
       var _this = this;
-      axios.post('/api/login', this.form).then(function () {
-        _this.$router.push({
-          name: 'home'
+      axios.get('/sanctum/csrf-cookie').then(function (response) {
+        axios.post('/login', _this.form).then(function (r) {
+          console.log(r);
+          _this.$router.push({
+            name: 'home'
+          });
+        })["catch"](function (error) {
+          _this.errors = error.response.data.errors;
         });
-      })["catch"](function (error) {
-        _this.errors = error.response.data.errors;
       });
     }
   }

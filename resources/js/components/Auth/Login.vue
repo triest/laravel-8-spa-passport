@@ -35,10 +35,13 @@ export default {
     },
     methods: {
         saveForm() {
-            axios.post('/api/login', this.form).then(() => {
-                this.$router.push({name: 'home'})
-            }).catch((error) => {
-                this.errors = error.response.data.errors;
+            axios.get('/sanctum/csrf-cookie').then(response => {
+                axios.post('/login', this.form).then((r) => {
+                    console.log(r)
+                    this.$router.push({name: 'home'})
+                }).catch((error) => {
+                    this.errors = error.response.data.errors;
+                })
             })
         }
     }
