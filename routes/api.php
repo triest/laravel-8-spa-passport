@@ -18,10 +18,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('api')->group(function () {
     Route::post('register', [RegisterController::class, 'register']);
     Route::post('login', [LoginController::class, 'login']);
+    Route::post('logout', [LoginController::class, 'logout']);
 });
-Route::apiResource('post', \App\Http\Controllers\PostController::class);
-Route::middleware('auth:sanctum')->group(function () {
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('post', \App\Http\Controllers\PostController::class);
 }
 );
 

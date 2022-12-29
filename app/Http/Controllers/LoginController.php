@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 
@@ -42,8 +43,9 @@ class LoginController extends Controller
     /**
      * @throws ValidationException
      */
-    public function login(LoginRequest $request)
+    public function login(Request $request)
     {
+
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
@@ -56,5 +58,9 @@ class LoginController extends Controller
         return response()->json(["token" => $token])->withHeaders(
             ['X-XSFR-TOKEN' => $token]
         );
+    }
+
+    public function logout(){
+
     }
 }

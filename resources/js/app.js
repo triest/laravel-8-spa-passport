@@ -1,4 +1,5 @@
 require('./bootstrap');
+
 import Vue from 'vue'
 window.Vue = require('vue');
 import Vuex from 'vuex';

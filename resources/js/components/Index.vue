@@ -15,6 +15,11 @@
             <div v-for="product in products" :key="product.id">
                 <td>{{ product.title }}</td>
                 <td>{{ product.detail }}</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <router-link :to="{name: 'view', params: { id: product.id }}" class="btn btn-success">View</router-link>
+                    </div>
+                </td>
             </div>
             </tbody>
         </table>

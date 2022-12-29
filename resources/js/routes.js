@@ -3,6 +3,7 @@ import Index from './components/Index.vue';
 import Create from './components/Create.vue';
 import Login from './components/Auth/Login.vue';
 import Registration from './components/Auth/Register.vue';
+import View from "./components/View.vue";
 
 Vue.component('app', require('./App.vue').default);
 
@@ -31,6 +32,13 @@ export const routes = [
         component: Create,
         meta: {title: 'Create'}
     },
+    {
+        name: 'view',
+        path: '/post/:id',
+        component: View,
+        meta: {title: 'Edit1'}
+    },
+
 
 
 ];
