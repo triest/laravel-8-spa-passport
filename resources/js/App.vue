@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <ul>
-            <li><router-link :to="{name: 'home'}" >Главная1</router-link></li>
+            <li><router-link :to="{name: 'index'}" >Главная1</router-link></li>
             <li><router-link :to="{name: 'create'}" >Создать2</router-link></li>
             <li><router-link :to="{name: 'login'}" >Войти</router-link></li>
             <li><router-link :to="{name: 'register'}" >Регистрация1</router-link></li>

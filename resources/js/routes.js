@@ -20,7 +20,7 @@ export const routes = [
         meta: {title: 'Вход'}
     },
     {
-        name: 'home',
+        name: 'index',
         path: '/',
         component: Index,
         meta: {title: 'Главная'}
