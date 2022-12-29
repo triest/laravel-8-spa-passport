@@ -21,8 +21,8 @@ Route::middleware('api')->group(function () {
     Route::post('logout', [LoginController::class, 'logout']);
 });
 
-//Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('post', \App\Http\Controllers\PostController::class);
-//});
+});
 
 

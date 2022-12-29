@@ -9,7 +9,7 @@
                     <p class="lead mb-4">{{ product.description }}</p>
 
                 </div>
-                <li><router-link :to="{name: 'index'}" >Главная</router-link></li>
+                <router-link :to="{name: 'index'}" >Главная</router-link>
 
             </div>
         </div>

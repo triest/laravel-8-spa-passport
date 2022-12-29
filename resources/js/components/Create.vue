@@ -6,15 +6,15 @@
             <div class="col-md-6">
                 <form @submit.prevent="addProduct">
                     <div class="form-group">
-                        <label>Name</label>
+                        <label>Название</label>
                         <input type="text" class="form-control" v-model="product.title">
                     </div>
                     <div class="form-group">
-                        <label>Detail</label>
-                        <input type="text" class="form-control" v-model="product.description">
+                        <label>Детали</label>
+                        <textarea type="text" class="form-control" v-model="product.description"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Create</button>
-                    <router-link :to="{name: 'home'}" class="btn btn-success">Back</router-link>
+                    <button type="submit" class="btn btn-primary">Создать</button>
+                    <router-link :to="{name: 'index'}" >Главная</router-link>
                 </form>
             </div>
         </div>

@@ -2819,7 +2819,7 @@ var render = function render() {
     }
   }, [_c("div", {
     staticClass: "form-group"
-  }, [_c("label", [_vm._v("Name")]), _vm._v(" "), _c("input", {
+  }, [_c("label", [_vm._v("Название")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -2841,7 +2841,7 @@ var render = function render() {
     }
   })]), _vm._v(" "), _c("div", {
     staticClass: "form-group"
-  }, [_c("label", [_vm._v("Detail")]), _vm._v(" "), _c("input", {
+  }, [_c("label", [_vm._v("Детали")]), _vm._v(" "), _c("textarea", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -2866,14 +2866,13 @@ var render = function render() {
     attrs: {
       type: "submit"
     }
-  }, [_vm._v("Create")]), _vm._v(" "), _c("router-link", {
-    staticClass: "btn btn-success",
+  }, [_vm._v("Создать")]), _vm._v(" "), _c("router-link", {
     attrs: {
       to: {
-        name: "home"
+        name: "index"
       }
     }
-  }, [_vm._v("Back")])], 1)])])]);
+  }, [_vm._v("Главная")])], 1)])])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -3026,13 +3025,13 @@ var render = function render() {
     staticClass: "col-lg-6 mx-auto"
   }, [_c("p", {
     staticClass: "lead mb-4"
-  }, [_vm._v(_vm._s(_vm.product.description))])]), _vm._v(" "), _c("li", [_c("router-link", {
+  }, [_vm._v(_vm._s(_vm.product.description))])]), _vm._v(" "), _c("router-link", {
     attrs: {
       to: {
         name: "index"
       }
     }
-  }, [_vm._v("Главная")])], 1)])])]);
+  }, [_vm._v("Главная")])], 1)])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;
