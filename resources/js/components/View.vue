@@ -1,20 +1,16 @@
 <template>
     <div>
-        <h3 class="text-center">Create Product</h3>
         <div class="row">
 
             <div class="col-md-6">
-                <form @submit.prevent="addProduct">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <div type="text" class="form-control">{{product.title}}</div>
-                    </div>
-                    <div class="form-group">
-                        <label>Detail</label>
-                        <div type="text" class="form-control">{{product.description}}</div>
-                    </div>
-                    <router-link :to="{name: 'home'}" class="btn btn-success">Back</router-link>
-                </form>
+
+                <h1 class="display-5 fw-bold">{{ product.title }}</h1>
+                <div class="col-lg-6 mx-auto">
+                    <p class="lead mb-4">{{ product.description }}</p>
+
+                </div>
+                <li><router-link :to="{name: 'index'}" >Главная</router-link></li>
+
             </div>
         </div>
     </div>
@@ -22,8 +18,9 @@
 
 <script>
 import ErrorsModal from "./ErrorsModal";
+
 export default {
-    components:{
+    components: {
         ErrorsModal
     },
     data() {
@@ -38,7 +35,7 @@ export default {
         this.getPost();
     },
     methods: {
-        getPost(){
+        getPost() {
             console.log(this.$route.params.id);
             this.axios
                 .get(`/api/post/${this.$route.params.id}`)

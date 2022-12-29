@@ -2,37 +2,22 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="https://techvblogs.com/blog/spa-authentication-laravel-9-sanctum-vue3-vite" target="_blank">TechvBlogs</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
+                        <li><router-link :to="{name: 'index'}" >Главная</router-link></li>
+                        <li><router-link :to="{name: 'create'}" >Создать</router-link></li>
+                        <li><router-link :to="{name: 'login'}" >Войти</router-link></li>
+                        <li><router-link :to="{name: 'register'}" >Регистрация</router-link></li>
 
-                        </li>
                     </ul>
-                    <div class="d-flex">
-                        <ul class="navbar-nav">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="javascript:void(0)" @click="logout">Logout</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </nav>
-        <ul>
-            <li><router-link :to="{name: 'index'}" >Главная1</router-link></li>
-            <li><router-link :to="{name: 'create'}" >Создать2</router-link></li>
-            <li><router-link :to="{name: 'login'}" >Войти</router-link></li>
-            <li><router-link :to="{name: 'register'}" >Регистрация1</router-link></li>
-        </ul>
+
 
         <div style="margin-left:30%;padding:1px 16px;height:1000px;">
             <router-view></router-view>
@@ -50,7 +35,7 @@ export default {
 
     data() {
         return {
-
+            authUser: window.authUser
         }
     },
     computed : {
@@ -86,3 +71,37 @@ export default {
     }
 }
 </script>
+
+<style>
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    background-color: #f1f1f1;
+    position: fixed;
+    /*  height: 100%;*/
+    margin-top: 5%;
+    margin-left: 10%;
+    overflow: auto;
+}
+li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+li a.active {
+    background-color: #04AA6D;
+    color: white;
+}
+li a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+
+.table{
+    border: #0a0302;
+
+}
+</style>
