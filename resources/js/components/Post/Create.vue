@@ -34,12 +34,9 @@ export default {
             modalOpen: true
         }
     },
-    mounted() {
-        console.log("mount create")
-    },
     methods: {
         clouseModal(){
-            console.log("clouse")
+
         },
         addProduct() {
             this.axios

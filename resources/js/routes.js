@@ -48,3 +48,7 @@ export const routes = [
 
 
 ];
+
+function isLoggedIn() {
+    return localStorage.getItem("auth");
+}

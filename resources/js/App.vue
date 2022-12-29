@@ -9,9 +9,9 @@
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                         <li><router-link :to="{name: 'index'}" >Главная</router-link></li>
-                        <li><router-link :to="{name: 'create'}"  v-if="authUser !== undefined" >Создать</router-link></li>
-                        <li><router-link :to="{name: 'login'}"  v-if="authUser === undefined" >Войти</router-link></li>
-                        <li><button  v-on:click="logout()" >Выйти</button></li>
+                        <li><router-link :to="{name: 'create'}"  v-if="isLogin" >Создать</router-link></li>
+                        <li><router-link :to="{name: 'login'}"  v-if="!isLogin" >Войти</router-link></li>
+                        <li><button   v-if="isLogin"  v-on:click="logout()">Выйти</button></li>
                         <li><router-link :to="{name: 'register'}"  v-if="authUser !== undefined" >Регистрация</router-link></li>
 
                     </ul>
@@ -21,7 +21,7 @@
 
 
         <div style="margin-left:30%;padding:1px 16px;height:1000px;">
-            <router-view></router-view>
+            <router-view @isLogout="checkLogout"></router-view>
         </div>
 
     </div>
@@ -36,7 +36,8 @@ export default {
 
     data() {
         return {
-            authUser: window.authUser
+            authUser: window.authUser,
+            isLogin: false
         }
     },
     computed : {
@@ -44,19 +45,27 @@ export default {
 
     },
     mounted() {
+        this.isLogin = this.isLoggedIn();
     },
 
     methods: {
+        checkLogout(isLogin){
+          this.isLogin = isLogin
+        },
+
+        isLoggedIn() {
+            return localStorage.getItem("auth");
+        },
         logout() {
+            this.isLogin = false;
             this.axios
                 .post('/api/logout')
                 .then(response => function() {
-                    localStorage.removeItem('x_xsrf_token')
-                    this.$router.push({name: 'home'})
-
+                    this.isLogin = false;
                     }
                 )
                 .catch(err => {
+                    this.isLogin = false;
                     if (err.response.status === 422) {
                         this.errors = err.response.data.errors;
                     }

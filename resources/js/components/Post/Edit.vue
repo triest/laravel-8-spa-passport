@@ -46,12 +46,12 @@ export default {
             });
         },
         getPost(){
-            console.log('get post')
+
             this.axios
                 .get(`/api/post/${this.$route.params.id}`)
                 .then((res) => {
                     this.post = res.data.data;
-                    console.log(this.post)
+
                 });
         }
     }

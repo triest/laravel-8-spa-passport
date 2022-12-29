@@ -44,10 +44,8 @@ export default {
             .then(response => {
                 this.products = response.data.data;
             });
-        console.log(this.products)
     },
     mounted() {
-        console.log("products")
     },
     methods: {
         deleteProduct(id) {

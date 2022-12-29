@@ -31,12 +31,10 @@ export default {
         }
     },
     mounted() {
-        console.log("mount view")
         this.getPost();
     },
     methods: {
         getPost() {
-            console.log(this.$route.params.id);
             this.axios
                 .get(`/api/post/${this.$route.params.id}`)
                 .then((res) => {
