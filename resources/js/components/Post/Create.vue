@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import ErrorsModal from "./ErrorsModal";
+import ErrorsModal from "../ErrorsModal.vue";
 export default {
     components:{
         ErrorsModal

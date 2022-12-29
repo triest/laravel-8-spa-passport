@@ -18,6 +18,10 @@
                         <router-link :to="{name: 'view', params: { id: product.id }}" class="btn btn-success">Смотреть
                         </router-link>
                     </div>
+                <td>
+                    <div class="btn-group" role="group">
+                        <router-link :to="{name: 'edit', params: { id: product.id }}" class="btn btn-success">Edit</router-link>
+                    </div>
                 </td>
             </tr>
 
