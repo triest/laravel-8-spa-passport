@@ -47,7 +47,7 @@ export default {
     methods: {
         saveForm() {
             axios.post('/api/register', this.form).then(() => {
-                this.$router.push({name: 'home'})
+                this.$router.push({name: 'index'})
             }).catch((error) => {
                 this.errors = error.response.data.errors;
             })

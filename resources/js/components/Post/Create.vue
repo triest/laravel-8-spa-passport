@@ -42,7 +42,7 @@ export default {
             this.axios
                 .post('/api/post', this.product)
                 .then(response => (
-                    this.$router.push({name: 'home'})
+                    this.$router.push({name: 'index'})
                 ))
                 .catch(err => {
                     if (err.response.status === 422) {

@@ -13,7 +13,7 @@
                         <input type="text" class="form-control" v-model="post.description">
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
-                    <router-link :to="{name: 'home'}" class="btn btn-success">Back</router-link>
+                    <router-link :to="{name: 'index'}" class="btn btn-success">Back</router-link>
                 </form>
             </div>
         </div>
@@ -38,7 +38,7 @@ export default {
             this.axios
                 .patch(`/api/post/${this.$route.params.id}`, this.post)
                 .then((res) => {
-                    this.$router.push({ name: 'home' });
+                    this.$router.push({ name: 'index' });
                 }) .catch(err => {
                 if (err.response.status === 422) {
                     this.errors = err.response.data.errors;

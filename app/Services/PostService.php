@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Requests\IndexPostRequest;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 
 class PostService
 {

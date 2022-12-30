@@ -2070,35 +2070,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      authUser: window.authUser,
-      isLogin: false
+      authUser: window.authUser
     };
   },
-  computed: {},
-  mounted: function mounted() {
-    this.isLogin = this.isLoggedIn();
+  computed: {
+    checkIsLogin: function checkIsLogin() {
+      if (localStorage.getItem('isLogin') === undefined) {
+        return false;
+      } else {
+        return localStorage.getItem('isLogin');
+      }
+    }
   },
   methods: {
-    checkLogout: function checkLogout(isLogin) {
-      this.isLogin = isLogin;
-    },
     isLoggedIn: function isLoggedIn() {
       return localStorage.getItem("auth");
     },
     logout: function logout() {
       var _this = this;
-      this.isLogin = false;
       this.axios.post('/api/logout').then(function (response) {
         return function () {
-          this.isLogin = false;
+          localStorage.setItem('isLogin', false);
         };
       })["catch"](function (err) {
-        _this.isLogin = false;
+        localStorage.setItem('isLogin', false);
         if (err.response.status === 422) {
           _this.errors = err.response.data.errors;
         }
       })["finally"](function () {
-        return _this.loading = false;
+        return _this.$router.go('index');
       });
     }
   }
@@ -2133,14 +2133,11 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
       axios.get('/sanctum/csrf-cookie').then(function (response) {
         axios.post('/login', _this.form).then(function (r) {
-          localStorage.setItem('x_xsrf_token', r.config.headers['X-XSRF-TOKEN']);
-          localStorage.setItem("auth", "true");
-          _this.$emit('isLogout', true);
-          _this.$router.push({
-            name: 'index'
-          });
+          localStorage.setItem('isLogin', true);
         })["catch"](function (error) {
-          _this.errors = error.response.data.errors;
+          localStorage.setItem('isLogin', false);
+        })["finally"](function () {
+          return _this.$router.go('index');
         });
       });
     }
@@ -2178,7 +2175,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
       axios.post('/api/register', this.form).then(function () {
         _this.$router.push({
-          name: 'home'
+          name: 'index'
         });
       })["catch"](function (error) {
         _this.errors = error.response.data.errors;
@@ -2374,7 +2371,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
       this.axios.post('/api/post', this.product).then(function (response) {
         return _this.$router.push({
-          name: 'home'
+          name: 'index'
         });
       })["catch"](function (err) {
         if (err.response.status === 422) {
@@ -2415,7 +2412,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
       this.axios.patch("/api/post/".concat(this.$route.params.id), this.post).then(function (res) {
         _this.$router.push({
-          name: 'home'
+          name: 'index'
         });
       })["catch"](function (err) {
         if (err.response.status === 422) {
@@ -2503,47 +2500,43 @@ var render = function render() {
     staticClass: "navbar-nav me-auto"
   }, [_c("li", {
     staticClass: "nav-item"
-  }), _c("li", [_c("router-link", {
+  }), _c("li"), _vm._v(" "), _c("li", [_c("router-link", {
     attrs: {
       to: {
         name: "index"
       }
     }
-  }, [_vm._v("Главная")])], 1), _vm._v(" "), _c("li", [_vm.isLogin ? _c("router-link", {
+  }, [_vm._v("Главная")])], 1), _vm._v(" "), _c("li", [_c("router-link", {
     attrs: {
       to: {
         name: "create"
       }
     }
-  }, [_vm._v("Создать")]) : _vm._e()], 1), _vm._v(" "), _c("li", [!_vm.isLogin ? _c("router-link", {
+  }, [_vm._v("Создать")])], 1), _vm._v(" "), _c("li", [!_vm.checkIsLogin ? _c("router-link", {
     attrs: {
       to: {
         name: "login"
       }
     }
-  }, [_vm._v("Войти")]) : _vm._e()], 1), _vm._v(" "), _c("li", [_vm.isLogin ? _c("button", {
+  }, [_vm._v("Войти")]) : _vm._e()], 1), _vm._v(" "), _c("li", [_vm.checkIsLogin ? _c("a", {
     on: {
       click: function click($event) {
         return _vm.logout();
       }
     }
-  }, [_vm._v("Выйти")]) : _vm._e()]), _vm._v(" "), _c("li", [_vm.authUser !== undefined ? _c("router-link", {
+  }, [_vm._v("Выйти")]) : _vm._e()]), _vm._v(" "), _c("li", [!_vm.checkIsLogin ? _c("router-link", {
     attrs: {
       to: {
         name: "register"
       }
     }
-  }, [_vm._v("Регистрация")]) : _vm._e()], 1)])])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Регистрация\n                        ")]) : _vm._e()], 1)])])])]), _vm._v(" "), _c("div", {
     staticStyle: {
       "margin-left": "30%",
       padding: "1px 16px",
       height: "1000px"
     }
-  }, [_c("router-view", {
-    on: {
-      isLogout: _vm.checkLogout
-    }
-  })], 1)]);
+  }, [_c("router-view")], 1)]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -3148,7 +3141,7 @@ var render = function render() {
     staticClass: "btn btn-success",
     attrs: {
       to: {
-        name: "home"
+        name: "index"
       }
     }
   }, [_vm._v("Back")])], 1)])])]);
@@ -3224,10 +3217,13 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1_
 
 
 
+
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_6__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_axios__WEBPACK_IMPORTED_MODULE_3__["default"], (axios__WEBPACK_IMPORTED_MODULE_4___default()));
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.$isLogin = false;
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.$appName = 'My App';
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__["default"]({
   base: '/app',
   mode: 'history',
@@ -3372,7 +3368,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nul {\n    list-style-type: none;\n    margin: 0;\n    padding: 0;\n    width: auto;\n    background-color: #f1f1f1;\n    position: fixed;\n    /*  height: 100%;*/\n    margin-top: 5%;\n    margin-left: 10%;\n    overflow: auto;\n}\nli a {\n    display: block;\n    color: #000;\n    padding: 8px 16px;\n    text-decoration: none;\n}\nli a.active {\n    background-color: #04AA6D;\n    color: white;\n}\nli a:hover:not(.active) {\n    background-color: #555;\n    color: white;\n}\n.table{\n    border: #0a0302;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nul {\n    list-style-type: none;\n    margin: 0;\n    padding: 0;\n    width: auto;\n    background-color: #f1f1f1;\n    position: fixed;\n    /*  height: 100%;*/\n    margin-top: 5%;\n    margin-left: 10%;\n    overflow: auto;\n}\nli a {\n    display: block;\n    color: #000;\n    padding: 8px 16px;\n    text-decoration: none;\n}\nli a.active {\n    background-color: #04AA6D;\n    color: white;\n}\nli a:hover:not(.active) {\n    background-color: #555;\n    color: white;\n}\n.table {\n    border: #0a0302;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

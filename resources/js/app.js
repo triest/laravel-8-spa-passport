@@ -12,7 +12,7 @@ import VueAxios from 'vue-axios';
 import VueRouter from 'vue-router';
 import axios from 'axios';
 import { routes } from './routes';
-
+import { CreateApp} from 'vue'
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
@@ -20,6 +20,9 @@ Vue.use(Vuex);
 window.axios = require('axios');
 
 
+Vue.prototype.$isLogin = false;
+
+Vue.prototype.$appName = 'My App'
 
 const router = new VueRouter({
     base: '/app',
@@ -29,9 +32,9 @@ const router = new VueRouter({
 
 
 
-
 const app = new Vue({
     el: '#app',
     router: router,
     render: h => h(App),
 });
+
