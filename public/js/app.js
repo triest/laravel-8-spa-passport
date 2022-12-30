@@ -2469,6 +2469,22 @@ __webpack_require__.r(__webpack_exports__);
       this.axios.get("/api/post/".concat(this.$route.params.id)).then(function (res) {
         _this.product = res.data.data;
       });
+    },
+    deleteProduct: function deleteProduct(id) {
+      var _this2 = this;
+      var result = window.confirm("Удалить пост?");
+      if (!result) {
+        return;
+      }
+      this.axios["delete"]("/api/post/".concat(id)).then(function (response) {
+        _this2.$router.push({
+          name: 'index'
+        });
+      })["catch"](function (error) {
+        if (error.response !== undefined && error.response.status === 422) {
+          _this2.errors = error.response.data.errors;
+        }
+      });
     }
   }
 });
@@ -3169,7 +3185,16 @@ var render = function render() {
     _c = _vm._self._c;
   return _c("div", [_c("div", {
     staticClass: "row"
-  }, [_c("div", {
+  }, [_vm.errors ? _c("errors-modal", {
+    attrs: {
+      errors: _vm.errors
+    },
+    on: {
+      close: function close($event) {
+        _vm.errors = null;
+      }
+    }
+  }) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "col-md-6"
   }, [_c("h1", {
     staticClass: "display-5 fw-bold"
@@ -3177,13 +3202,20 @@ var render = function render() {
     staticClass: "col-lg-6 mx-auto"
   }, [_c("p", {
     staticClass: "lead mb-4"
-  }, [_vm._v(_vm._s(_vm.product.description))])]), _vm._v(" "), _c("router-link", {
+  }, [_vm._v(_vm._s(_vm.product.description))])]), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-danger",
+    on: {
+      click: function click($event) {
+        return _vm.deleteProduct(_vm.product.id);
+      }
+    }
+  }, [_vm._v("Удалить")]), _vm._v(" "), _c("router-link", {
     attrs: {
       to: {
         name: "index"
       }
     }
-  }, [_vm._v("Главная")])], 1)])]);
+  }, [_vm._v("Главная")])], 1)], 1)]);
 };
 var staticRenderFns = [];
 render._withStripped = true;

@@ -47,10 +47,10 @@ class PostController extends Controller
      */
     public function store(CreatePostRequest $request)
     {
-        $user = auth('sanctum')->user() ;
+        $user = auth('sanctum')->user();
 
-        if(!$user){
-            return response()->setStatusCode(403);
+        if (!$user) {
+            return response(status: 403);
         }
 
         $post = $this->postService->create($request->validated());
@@ -75,15 +75,14 @@ class PostController extends Controller
     /**
      * @param UpdatePostRequest $request
      * @param Post $post
-     * @return PostResource|Application|ResponseFactory|Response|object
+     * @return PostResource|Response|Application|ResponseFactory
      */
     public function update(UpdatePostRequest $request, Post $post): PostResource|Response|Application|ResponseFactory
     {
+        $user = auth('sanctum')->user();
 
-        $user = auth('sanctum')->user() ;
-
-        if(!$user){
-            return response()->setStatusCode(403);
+        if (!$user) {
+            return response(status: 403);
         }
 
         $post = $this->postService->update($post, $request->validated());
@@ -99,11 +98,11 @@ class PostController extends Controller
      */
     public function destroy(Post $post): Response
     {
-        if(!Auth::user()){
-            return response()->setStatusCode(403);
+        if (!Auth::user()) {
+            return \response(status: 403);
         }
         $this->postService->destroy($post);
 
-        return \response()->setStatusCode(204);
+        return \response(status: 204);
     }
 }
