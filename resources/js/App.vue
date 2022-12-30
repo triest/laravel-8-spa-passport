@@ -1,13 +1,7 @@
 <template>
     <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
             <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                         <li>
@@ -28,12 +22,8 @@
                             <router-link :to="{name: 'register'}"  v-if="!checkIsLogin">Регистрация
                             </router-link>
                         </li>
-
                     </ul>
-                </div>
             </div>
-        </nav>
-
 
         <div style="margin-left:30%;padding:1px 16px;height:1000px;">
             <router-view></router-view>

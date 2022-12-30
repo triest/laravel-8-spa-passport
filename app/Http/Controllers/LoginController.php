@@ -55,7 +55,9 @@ class LoginController extends Controller
             ]);
         }
         $token = $user->createToken($request->password)->plainTextToken;
-
+        $user->remember_token = $token;
+        $user->save();
+        $user->login();
         return response()->json(["token" => $token])->withHeaders(
             ['X-XSFR-TOKEN' => $token]
         );

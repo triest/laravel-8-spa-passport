@@ -2,7 +2,7 @@
     <div>
         <h3 class="text-center">Create Product</h3>
         <div class="row">
-
+            <errors-modal v-if="errors" :errors="errors" @close="errors=null"></errors-modal>
             <div class="col-md-6">
                 <form @submit.prevent="addProduct">
                     <div class="form-group">

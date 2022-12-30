@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Http\Requests\IndexPostRequest;
 use App\Models\Post;
-use Illuminate\Support\Facades\Auth;
 
 class PostService
 {
@@ -32,9 +31,14 @@ class PostService
     public function create(array $data): Post
     {
         $post = new Post();
-
         $post->fill($data);
         $post->save();
+        $user = auth('sanctum')->user();
+        if ($user) {
+            $post->author()->associate($user);
+        }
+        $post->save();
+
         return $post;
     }
 

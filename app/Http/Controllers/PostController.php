@@ -41,6 +41,22 @@ class PostController extends Controller
     }
 
 
+    /**
+     * @param CreatePostRequest $request
+     * @return PostResource|Application|ResponseFactory|Response|object
+     */
+    public function store(CreatePostRequest $request)
+    {
+        $user = auth('sanctum')->user() ;
+
+        if(!$user){
+            return response()->setStatusCode(403);
+        }
+
+        $post = $this->postService->create($request->validated());
+
+        return PostResource::make($post);
+    }
 
     /**
      * Display the specified resource.
@@ -63,7 +79,10 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post): PostResource|Response|Application|ResponseFactory
     {
-        if(!Auth::user()){
+
+        $user = auth('sanctum')->user() ;
+
+        if(!$user){
             return response()->setStatusCode(403);
         }
 

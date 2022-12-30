@@ -2397,7 +2397,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _ErrorsModal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ErrorsModal.vue */ "./resources/js/components/ErrorsModal.vue");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    ErrorsModal: _ErrorsModal_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       post: {},
@@ -2487,15 +2492,8 @@ var render = function render() {
     _c = _vm._self._c;
   return _c("div", {
     staticClass: "container"
-  }, [_c("nav", {
-    staticClass: "navbar navbar-expand-lg navbar-dark bg-dark"
   }, [_c("div", {
     staticClass: "container-fluid"
-  }, [_vm._m(0), _vm._v(" "), _c("div", {
-    staticClass: "collapse navbar-collapse",
-    attrs: {
-      id: "navbarNavDropdown"
-    }
   }, [_c("ul", {
     staticClass: "navbar-nav me-auto"
   }, [_c("li", {
@@ -2530,7 +2528,7 @@ var render = function render() {
         name: "register"
       }
     }
-  }, [_vm._v("Регистрация\n                        ")]) : _vm._e()], 1)])])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Регистрация\n                        ")]) : _vm._e()], 1)])]), _vm._v(" "), _c("div", {
     staticStyle: {
       "margin-left": "30%",
       padding: "1px 16px",
@@ -2538,23 +2536,7 @@ var render = function render() {
     }
   }, [_c("router-view")], 1)]);
 };
-var staticRenderFns = [function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("button", {
-    staticClass: "navbar-toggler",
-    attrs: {
-      type: "button",
-      "data-bs-toggle": "collapse",
-      "data-bs-target": "#navbarNavDropdown",
-      "aria-controls": "navbarNavDropdown",
-      "aria-expanded": "false",
-      "aria-label": "Toggle navigation"
-    }
-  }, [_c("span", {
-    staticClass: "navbar-toggler-icon"
-  })]);
-}];
+var staticRenderFns = [];
 render._withStripped = true;
 
 
@@ -2988,7 +2970,16 @@ var render = function render() {
     staticClass: "text-center"
   }, [_vm._v("Create Product")]), _vm._v(" "), _c("div", {
     staticClass: "row"
-  }, [_c("div", {
+  }, [_vm.errors ? _c("errors-modal", {
+    attrs: {
+      errors: _vm.errors
+    },
+    on: {
+      close: function close($event) {
+        _vm.errors = null;
+      }
+    }
+  }) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "col-md-6"
   }, [_c("form", {
     on: {
@@ -3052,7 +3043,7 @@ var render = function render() {
         name: "index"
       }
     }
-  }, [_vm._v("Главная")])], 1)])])]);
+  }, [_vm._v("Главная")])], 1)])], 1)]);
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -3075,65 +3066,87 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _vm._m(0);
-};
-var staticRenderFns = [function () {
-  var _vm = this,
-    _c = _vm._self._c;
   return _c("div", [_c("h3", {
     staticClass: "text-center"
-  }, [_vm._v("Edit Product")]), _vm._v(" "), _c("form", [_c("div", {
-    staticClass: "form-group"
-  }, [_c("label", {
+  }, [_vm._v("Edit Product")]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_vm.errors ? _c("errors-modal", {
     attrs: {
-      "for": "exampleInputEmail1"
+      errors: _vm.errors
+    },
+    on: {
+      close: function close($event) {
+        _vm.errors = null;
+      }
     }
-  }, [_vm._v("Email address")]), _vm._v(" "), _c("input", {
+  }) : _vm._e(), _vm._v(" "), _c("div", {
+    staticClass: "col-md-6"
+  }, [_c("form", {
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.updateProduct.apply(null, arguments);
+      }
+    }
+  }, [_c("div", {
+    staticClass: "form-group"
+  }, [_c("label", [_vm._v("Name")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.post.title,
+      expression: "post.title"
+    }],
     staticClass: "form-control",
     attrs: {
-      type: "email",
-      id: "exampleInputEmail1",
-      "aria-describedby": "emailHelp",
-      placeholder: "Enter email"
-    }
-  }), _vm._v(" "), _c("small", {
-    staticClass: "form-text text-muted",
-    attrs: {
-      id: "emailHelp"
-    }
-  }, [_vm._v("We'll never share your email with anyone else.")])]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("label", {
-    attrs: {
-      "for": "exampleInputPassword1"
-    }
-  }, [_vm._v("Password")]), _vm._v(" "), _c("input", {
-    staticClass: "form-control",
-    attrs: {
-      type: "password",
-      id: "exampleInputPassword1",
-      placeholder: "Password"
+      type: "text"
+    },
+    domProps: {
+      value: _vm.post.title
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.post, "title", $event.target.value);
+      }
     }
   })]), _vm._v(" "), _c("div", {
-    staticClass: "form-group form-check"
-  }, [_c("input", {
-    staticClass: "form-check-input",
+    staticClass: "form-group"
+  }, [_c("label", [_vm._v("Detail")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.post.description,
+      expression: "post.description"
+    }],
+    staticClass: "form-control",
     attrs: {
-      type: "checkbox",
-      id: "exampleCheck1"
+      type: "text"
+    },
+    domProps: {
+      value: _vm.post.description
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.post, "description", $event.target.value);
+      }
     }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "form-check-label",
-    attrs: {
-      "for": "exampleCheck1"
-    }
-  }, [_vm._v("Check me out")])]), _vm._v(" "), _c("button", {
+  })]), _vm._v(" "), _c("button", {
     staticClass: "btn btn-primary",
     attrs: {
       type: "submit"
     }
-  }, [_vm._v("Submit")])])]);
-}];
+  }, [_vm._v("Update")]), _vm._v(" "), _c("router-link", {
+    staticClass: "btn btn-success",
+    attrs: {
+      to: {
+        name: "index"
+      }
+    }
+  }, [_vm._v("Back")])], 1)])], 1)]);
+};
+var staticRenderFns = [];
 render._withStripped = true;
 
 
