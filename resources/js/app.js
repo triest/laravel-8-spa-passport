@@ -18,7 +18,7 @@ Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
 Vue.use(Vuex);
 window.axios = require('axios');
-
+import {store} from './store/index';
 
 Vue.prototype.$isLogin = false;
 
@@ -35,6 +35,7 @@ const router = new VueRouter({
 const app = new Vue({
     el: '#app',
     router: router,
+    store: store,
     render: h => h(App),
 });
 

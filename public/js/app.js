@@ -2506,13 +2506,13 @@ var render = function render() {
         name: "index"
       }
     }
-  }, [_vm._v("Главная")])], 1), _vm._v(" "), _c("li", [_c("router-link", {
+  }, [_vm._v("Главная")])], 1), _vm._v(" "), _c("li", [_vm.checkIsLogin ? _c("router-link", {
     attrs: {
       to: {
         name: "create"
       }
     }
-  }, [_vm._v("Создать")])], 1), _vm._v(" "), _c("li", [!_vm.checkIsLogin ? _c("router-link", {
+  }, [_vm._v("Создать")]) : _vm._e()], 1), _vm._v(" "), _c("li", [!_vm.checkIsLogin ? _c("router-link", {
     attrs: {
       to: {
         name: "login"
@@ -3075,78 +3075,65 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
+  return _vm._m(0);
+};
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c;
   return _c("div", [_c("h3", {
     staticClass: "text-center"
-  }, [_vm._v("Edit Product")]), _vm._v(" "), _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-6"
-  }, [_c("form", {
-    on: {
-      submit: function submit($event) {
-        $event.preventDefault();
-        return _vm.updateProduct.apply(null, arguments);
-      }
-    }
-  }, [_c("div", {
+  }, [_vm._v("Edit Product")]), _vm._v(" "), _c("form", [_c("div", {
     staticClass: "form-group"
-  }, [_c("label", [_vm._v("Name")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.post.title,
-      expression: "post.title"
-    }],
+  }, [_c("label", {
+    attrs: {
+      "for": "exampleInputEmail1"
+    }
+  }, [_vm._v("Email address")]), _vm._v(" "), _c("input", {
     staticClass: "form-control",
     attrs: {
-      type: "text"
-    },
-    domProps: {
-      value: _vm.post.title
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.post, "title", $event.target.value);
-      }
+      type: "email",
+      id: "exampleInputEmail1",
+      "aria-describedby": "emailHelp",
+      placeholder: "Enter email"
+    }
+  }), _vm._v(" "), _c("small", {
+    staticClass: "form-text text-muted",
+    attrs: {
+      id: "emailHelp"
+    }
+  }, [_vm._v("We'll never share your email with anyone else.")])]), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    attrs: {
+      "for": "exampleInputPassword1"
+    }
+  }, [_vm._v("Password")]), _vm._v(" "), _c("input", {
+    staticClass: "form-control",
+    attrs: {
+      type: "password",
+      id: "exampleInputPassword1",
+      placeholder: "Password"
     }
   })]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("label", [_vm._v("Detail")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.post.description,
-      expression: "post.description"
-    }],
-    staticClass: "form-control",
+    staticClass: "form-group form-check"
+  }, [_c("input", {
+    staticClass: "form-check-input",
     attrs: {
-      type: "text"
-    },
-    domProps: {
-      value: _vm.post.description
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.post, "description", $event.target.value);
-      }
+      type: "checkbox",
+      id: "exampleCheck1"
     }
-  })]), _vm._v(" "), _c("button", {
+  }), _vm._v(" "), _c("label", {
+    staticClass: "form-check-label",
+    attrs: {
+      "for": "exampleCheck1"
+    }
+  }, [_vm._v("Check me out")])]), _vm._v(" "), _c("button", {
     staticClass: "btn btn-primary",
     attrs: {
       type: "submit"
     }
-  }, [_vm._v("Update")]), _vm._v(" "), _c("router-link", {
-    staticClass: "btn btn-success",
-    attrs: {
-      to: {
-        name: "index"
-      }
-    }
-  }, [_vm._v("Back")])], 1)])])]);
-};
-var staticRenderFns = [];
+  }, [_vm._v("Submit")])])]);
+}];
 render._withStripped = true;
 
 
@@ -3207,6 +3194,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
+/* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./store/index */ "./resources/js/store/index.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
@@ -3222,6 +3210,7 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_router__WEBPACK_IMPORTED_MOD
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_axios__WEBPACK_IMPORTED_MODULE_3__["default"], (axios__WEBPACK_IMPORTED_MODULE_4___default()));
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.$isLogin = false;
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.$appName = 'My App';
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__["default"]({
@@ -3232,6 +3221,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__["default"]({
 var app = new vue__WEBPACK_IMPORTED_MODULE_0__["default"]({
   el: '#app',
   router: router,
+  store: _store_index__WEBPACK_IMPORTED_MODULE_7__.store,
   render: function render(h) {
     return h(_App_vue__WEBPACK_IMPORTED_MODULE_2__["default"]);
   }
@@ -3348,6 +3338,93 @@ var routes = [{
 function isLoggedIn() {
   return localStorage.getItem("auth");
 }
+
+/***/ }),
+
+/***/ "./resources/js/store/index.js":
+/*!*************************************!*\
+  !*** ./resources/js/store/index.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "store": () => (/* binding */ store)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
+var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
+  state: {
+    settings: [],
+    user: []
+  },
+  getters: {
+    get_settings: function get_settings(state) {
+      return state.settings;
+    },
+    get_user: function get_user(state) {
+      return state.user;
+    }
+  },
+  mutations: {
+    settings: function settings(state, data) {
+      return state.settings = data;
+    },
+    set_settings: function set_settings(state, _ref) {
+      var key = _ref.key,
+        value = _ref.value;
+      //    return state.settings = data
+      vue__WEBPACK_IMPORTED_MODULE_0__["default"].set(state.settings, key, value);
+    },
+    user: function user(state, data) {
+      return state.user = data;
+    },
+    set_user: function set_user(state, _ref2) {
+      var key = _ref2.key,
+        value = _ref2.value;
+      vue__WEBPACK_IMPORTED_MODULE_0__["default"].set(state.user, key, value);
+    }
+  },
+  actions: {
+    GET_SETTINGS: function GET_SETTINGS(context) {
+      axios.get("/api/settings").then(function (response) {
+        context.commit("settings", response.data.settings); //categories will be run from mutation
+      })["catch"](function () {
+        console.log("Error........");
+      });
+    },
+    SAVE_SETTINGS: function SAVE_SETTINGS(_ref3, key, value) {
+      var commit = _ref3.commit;
+      console.log(key);
+      var response = axios.post('/api/settings', key);
+      commit('set_settings', {
+        key: key,
+        value: value
+      });
+      return response.data;
+    },
+    GET_USER: function GET_USER(context) {
+      axios.get("/api/user").then(function (response) {
+        context.commit("user", response.data.user); //categories will be run from mutation
+      })["catch"](function () {
+        console.log("Error........");
+      });
+    },
+    SAVE_USER: function SAVE_USER(_ref4, key, value) {
+      var commit = _ref4.commit;
+      var response = axios.post('/api/user', key);
+      commit('set_user', {
+        key: key,
+        value: value
+      });
+      return response.data;
+    }
+  }
+});
 
 /***/ }),
 

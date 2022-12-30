@@ -9,7 +9,10 @@ use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Services\PostService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -30,7 +33,7 @@ class PostController extends Controller
      *
      * @return PostCollection
      */
-    public function index(IndexPostRequest $request)
+    public function index(IndexPostRequest $request): PostCollection
     {
         $posts = $this->postService->index($request);
 
@@ -38,16 +41,6 @@ class PostController extends Controller
     }
 
 
-    /**
-     * @param CreatePostRequest $request
-     * @return PostResource
-     */
-    public function store(CreatePostRequest $request): PostResource
-    {
-        $post = $this->postService->create($request->validated());
-
-        return PostResource::make($post);
-    }
 
     /**
      * Display the specified resource.
@@ -66,10 +59,14 @@ class PostController extends Controller
     /**
      * @param UpdatePostRequest $request
      * @param Post $post
-     * @return PostResource
+     * @return PostResource|Application|ResponseFactory|Response|object
      */
-    public function update(UpdatePostRequest $request, Post $post): PostResource
+    public function update(UpdatePostRequest $request, Post $post): PostResource|Response|Application|ResponseFactory
     {
+        if(!Auth::user()){
+            return response()->setStatusCode(403);
+        }
+
         $post = $this->postService->update($post, $request->validated());
 
         return PostResource::make($post);
@@ -83,6 +80,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post): Response
     {
+        if(!Auth::user()){
+            return response()->setStatusCode(403);
+        }
         $this->postService->destroy($post);
 
         return \response()->setStatusCode(204);

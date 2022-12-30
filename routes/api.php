@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,8 +20,8 @@ Route::middleware('api')->group(function () {
     Route::post('logout', [LoginController::class, 'logout']);
 });
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('post', \App\Http\Controllers\PostController::class);
-});
+
+Route::apiResource('post', \App\Http\Controllers\PostController::class);
+
 
 
