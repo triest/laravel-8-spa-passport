@@ -4,7 +4,7 @@ namespace App\Http\Requests\Post;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePostRequest extends FormRequest
+class StorePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class UpdatePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'  => 'string|max:256',
-            'description' => 'string|max:1024'
+            'title'  => 'required|string|max:256',
+            'description' => 'required|string|max:1024'
         ];
     }
 }
