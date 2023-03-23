@@ -46,10 +46,13 @@ export default {
     },
     computed: {
         checkIsLogin: function (){
-            if(localStorage.getItem('isLogin')===undefined){
-                return false;
+            console.log(localStorage.getItem('isLogin'))
+
+            if(localStorage.getItem('isLogin')==='true'){
+                console.log('isLogin == true');
+                return true;
             }else {
-                return  localStorage.getItem('isLogin')
+                return  false
             }
 
         },

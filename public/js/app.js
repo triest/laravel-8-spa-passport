@@ -2075,10 +2075,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     checkIsLogin: function checkIsLogin() {
-      if (localStorage.getItem('isLogin') === undefined) {
-        return false;
+      console.log(localStorage.getItem('isLogin'));
+      if (localStorage.getItem('isLogin') === 'true') {
+        console.log('isLogin == true');
+        return true;
       } else {
-        return localStorage.getItem('isLogin');
+        return false;
       }
     }
   },
@@ -2131,14 +2133,12 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     saveForm: function saveForm() {
       var _this = this;
-      axios.get('/sanctum/csrf-cookie').then(function (response) {
-        axios.post('/login', _this.form).then(function (r) {
-          localStorage.setItem('isLogin', true);
-        })["catch"](function (error) {
-          localStorage.setItem('isLogin', false);
-        })["finally"](function () {
-          return _this.$router.go('index');
-        });
+      this.axios.post('/api/login', this.form).then(function (r) {
+        localStorage.setItem('isLogin', true);
+        localStorage.setItem('token', r.data.token);
+        _this.$router.go('index');
+      })["catch"](function (error) {
+        localStorage.setItem('isLogin', false);
       });
     }
   }
@@ -2589,7 +2589,7 @@ var render = function render() {
     attrs: {
       "for": "exampleInputEmail1"
     }
-  }, [_vm._v("Email address")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Email2 1")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -2919,7 +2919,7 @@ var render = function render() {
     _c = _vm._self._c;
   return _c("div", [_c("h2", {
     staticClass: "text-center"
-  }, [_vm._v("Посты")]), _vm._v(" "), _c("table", {
+  }, [_vm._v("Посты1")]), _vm._v(" "), _c("table", {
     staticClass: "table"
   }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.products, function (product) {
     return _c("tr", {
@@ -3256,8 +3256,17 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_axios__WEBPACK_IMPORTED_MODU
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
-vue__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.$isLogin = false;
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.$tokwn = null;
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.$appName = 'My App';
+axios__WEBPACK_IMPORTED_MODULE_4___default().interceptors.request.use(function (config) {
+  var token = localStorage.getItem('token');
+  if (token) {
+    config.headers['Authorization'] = "Bearer ".concat(token);
+  }
+  return config;
+}, function (error) {
+  return Promise.reject(error);
+});
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__["default"]({
   base: '/app',
   mode: 'history',

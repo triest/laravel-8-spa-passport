@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2 class="text-center">Посты</h2>
+        <h2 class="text-center">Посты1</h2>
 
         <table class="table">
             <thead>

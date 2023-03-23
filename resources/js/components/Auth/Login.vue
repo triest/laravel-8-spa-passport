@@ -3,7 +3,7 @@
 
 
         <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
+            <label for="exampleInputEmail1">Email2 1</label>
             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                    placeholder="Enter email" v-model="form.email">
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
@@ -21,8 +21,7 @@
 <script>
 
 export default {
-    components: {
-    },
+    components: {},
     data() {
         return {
             form: {
@@ -35,15 +34,14 @@ export default {
     },
     methods: {
         saveForm() {
-            axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.post('/login', this.form).then((r) => {
-                    localStorage.setItem('isLogin', true);
-
-                }).catch((error) => {
-                    localStorage.setItem('isLogin', false);
-
-                }).finally(() => this.$router.go('index'))
+            this.axios.post('/api/login', this.form).then((r) => {
+                localStorage.setItem('isLogin', true);
+                localStorage.setItem('token', r.data.token);
+                this.$router.go('index')
+            }).catch((error) => {
+                localStorage.setItem('isLogin', false);
             })
+
         }
     }
 }

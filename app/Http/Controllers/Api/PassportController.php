@@ -47,13 +47,8 @@ class PassportController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function login(Request $request)
+    public function login(Request $request): \Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
-        $data = [
-            'email' => $request->email,
-            'password' => $request->password
-        ];
-
         $user = User::where('email', $request->email)->first();
 
         if ($user) {

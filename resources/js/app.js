@@ -20,9 +20,27 @@ Vue.use(Vuex);
 window.axios = require('axios');
 import {store} from './store/index';
 
-Vue.prototype.$isLogin = false;
+
+
+Vue.prototype.$tokwn = null;
 
 Vue.prototype.$appName = 'My App'
+
+axios.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        return config;
+    },
+
+    (error) => {
+        return Promise.reject(error);
+    }
+);
 
 const router = new VueRouter({
     base: '/app',
