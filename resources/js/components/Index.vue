@@ -20,7 +20,10 @@
                     </div>
                 <td>
                     <div class="btn-group" role="group">
-                        <router-link :to="{name: 'edit', params: { id: product.id }}" class="btn btn-success">Edit</router-link>
+                        <router-link :to="{name: 'edit', params: { id: product.id }}" class="btn btn-success">удалить</router-link>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <router-link :to="{name: 'edit', params: { id: product.id }}" class="btn btn-success">Редактировать</router-link>
                     </div>
                 </td>
             </tr>

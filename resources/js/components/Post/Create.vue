@@ -23,9 +23,11 @@
 
 <script>
 import ErrorsModal from "../ErrorsModal.vue";
+import TagList from "./TagList.vue";
 export default {
     components:{
-        ErrorsModal
+        ErrorsModal,
+        TagList
     },
     data() {
         return {

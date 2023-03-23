@@ -26,12 +26,15 @@ export default {
     data() {
         return {
             product: {},
+            tags: {},
             errors: null,
             modalOpen: true
         }
     },
     mounted() {
         this.getPost();
+
+        this.getTags()
     },
     methods: {
         getPost() {
@@ -41,6 +44,8 @@ export default {
                     this.product = res.data.data;
                 });
         },
+
+
         deleteProduct(id) {
             let  result = window.confirm("Удалить пост?");
             if(!result){

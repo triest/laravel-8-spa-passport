@@ -17,24 +17,29 @@
                     <router-link :to="{name: 'index'}" class="btn btn-success">Back</router-link>
                 </form>
             </div>
+            <TagList></TagList>
         </div>
     </div>
 </template>
 
 <script>
 import ErrorsModal from "../ErrorsModal.vue";
+import TagList from "./TagList.vue";
 export default {
     components:{
-        ErrorsModal
+        ErrorsModal,
+        TagList
     },
     data() {
         return {
             post: {},
+            tags: {},
             errors: null,
         }
     },
     created() {
        this.getPost();
+       this.getTags()
     },
     methods: {
         updateProduct() {
@@ -47,6 +52,14 @@ export default {
                     this.errors = err.response.data.errors;
                 }
             });
+        },
+        getTags() {
+            this.axios
+                .get(`/api/tag`)
+                .then((res) => {
+                    this.tags = res.data.data;
+
+                });
         },
         getPost(){
 

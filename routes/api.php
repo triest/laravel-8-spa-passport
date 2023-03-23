@@ -26,8 +26,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('auth:api')->group(function () {
     Route::apiResource('post', PostController::class);
-    Route::resource('post', PostController::class);
-    Route::resource('tag',TagController::class);
+    Route::apiResource('tag',TagController::class);
     Route::post('/post/{post}/tag/bulk',[PostController::class,'bulk']);
 });
 
