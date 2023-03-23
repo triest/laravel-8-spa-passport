@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\PassportController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\TagController;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,7 +15,16 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::middleware('api')->group(function () {
+
+Route::post('register', [PassportController::class, 'register']);
+Route::post('login', [PassportController::class, 'login']);
+
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+
+Route::middleware('auth:api')->group(function () {
     Route::apiResource('post', PostController::class);
     Route::resource('post', PostController::class);
     Route::resource('tag',TagController::class);
