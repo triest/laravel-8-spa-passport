@@ -4,11 +4,15 @@
             <errors-modal v-if="errors" :errors="errors" @close="errors=null"></errors-modal>
             <div class="col-md-6">
 
-                <h1 class="display-5 fw-bold">{{ product.title }}</h1>
-                <div class="col-lg-6 mx-auto">
-                    <p class="lead mb-4">{{ product.description }}</p>
+
+
+                <div class="post-header">
+                    <h2 class="post-title"><a href="#">{{product.title}}</a></h2>
                 </div>
-                <button class="btn btn-danger" @click="deleteProduct(product.id)">Удалить</button>
+                <div class="post-content">
+                    <p>{{product.description}}</p>
+                </div>
+
                 <router-link :to="{name: 'index'}" >Главная</router-link>
 
             </div>
@@ -34,7 +38,6 @@ export default {
     mounted() {
         this.getPost();
 
-        this.getTags()
     },
     methods: {
         getPost() {

@@ -44,15 +44,12 @@ export default {
     },
     computed: {
         checkIsLogin: function (){
-            console.log(localStorage.getItem('isLogin'))
+            if(localStorage.getItem('user_id')!== undefined){
 
-            if(localStorage.getItem('isLogin')==='true'){
-                console.log('isLogin == true');
                 return true;
             }else {
                 return  false
             }
-
         },
 
     },
@@ -69,6 +66,7 @@ export default {
                 )
                 .catch(err => {
                     localStorage.setItem('isLogin', false);
+                    localStorage.removeItem('user_id')
                     if (err.response.status === 422) {
                         this.errors = err.response.data.errors;
                     }

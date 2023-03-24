@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 
 Route::post('register', [PassportController::class, 'register']);
 Route::post('login', [PassportController::class, 'login']);
-Route::post('logout', [PassportController::class, 'logout']);
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -26,6 +26,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::middleware('auth:api')->group(function () {
+    Route::post('logout', [PassportController::class, 'logout']);
     Route::apiResource('post', PostController::class);
     Route::apiResource('tag',TagController::class);
     Route::post('/post/{post}/tag/bulk',[PostController::class,'bulk']);

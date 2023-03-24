@@ -2075,9 +2075,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     checkIsLogin: function checkIsLogin() {
-      console.log(localStorage.getItem('isLogin'));
-      if (localStorage.getItem('isLogin') === 'true') {
-        console.log('isLogin == true');
+      if (localStorage.getItem('user_id') !== undefined) {
         return true;
       } else {
         return false;
@@ -2096,6 +2094,7 @@ __webpack_require__.r(__webpack_exports__);
         };
       })["catch"](function (err) {
         localStorage.setItem('isLogin', false);
+        localStorage.removeItem('user_id');
         if (err.response.status === 422) {
           _this.errors = err.response.data.errors;
         }
@@ -2134,15 +2133,16 @@ __webpack_require__.r(__webpack_exports__);
     saveForm: function saveForm() {
       var _this = this;
       this.axios.post('/api/login', this.form).then(function (r) {
-        localStorage.setItem('isLogin', true);
-        localStorage.setItem('token', r.data.token);
-        localStorage.setItem('user.id', r.data.user.id);
-        localStorage.setItem('user.login', r.data.user.login);
+        var temp = r;
+        localStorage.setItem('user_id', temp.data.user_id);
+        localStorage.setItem('token', temp.data.token);
         _this.$router.push({
           name: 'index'
         });
       })["catch"](function (error) {
         console.log("false");
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('token');
         // localStorage.setItem('isLogin', false);
       });
     }
@@ -2318,14 +2318,15 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       posts: [],
-      myPostsFilter: true
+      myPostsFilter: false
     };
   },
   computed: {
     checkIsLogin: function checkIsLogin() {
       console.log(localStorage.getItem('isLogin'));
-      if (localStorage.getItem('isLogin') === 'true') {
-        console.log('isLogin == true');
+      console.log(localStorage.getItem('user_id'));
+      if (localStorage.getItem('user_id') !== undefined) {
+        console.log();
         return true;
       } else {
         return false;
@@ -2675,7 +2676,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getPost();
-    this.getTags();
   },
   methods: {
     getPost: function getPost() {
@@ -3173,12 +3173,24 @@ var render = function render() {
     attrs: {
       "for": "checkbox"
     }
-  }, [_vm._v("Мои посты")])]) : _vm._e(), _vm._v(" "), _c("table", {
-    staticClass: "table"
-  }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.posts, function (post) {
-    return _c("tr", {
+  }, [_vm._v("Мои посты")])]) : _vm._e(), _vm._v(" "), _vm._l(_vm.posts, function (post) {
+    return _c("span", {
       key: post.id
-    }, [_c("td", [_vm._v(_vm._s(post.title))]), _vm._v(" "), _c("td", [_c("div", {
+    }, [_c("div", {
+      staticClass: "post-header"
+    }, [_c("h2", {
+      staticClass: "post-title"
+    }, [_c("router-link", {
+      attrs: {
+        to: {
+          name: "view",
+          params: {
+            id: post.id
+          }
+        },
+        href: ""
+      }
+    }, [_vm._v(_vm._s(post.title))])], 1)]), _vm._v(" "), _vm._m(0, true), _vm._v(" "), _c("div", {
       staticClass: "btn-group",
       attrs: {
         role: "group"
@@ -3193,9 +3205,9 @@ var render = function render() {
           }
         }
       }
-    }, [_vm._v("Смотреть\n                    ")])], 1)]), _vm._v(" "), _c("td", _vm._l(post.tags, function (tag, index) {
+    }, [_vm._v("Смотреть\n                    ")])], 1), _vm._v(" "), _vm._l(post.tags, function (tag, index) {
       return _c("span", [index != 0 ? _c("span", [_vm._v(", ")]) : _vm._e(), _c("span", [_vm._v(_vm._s(tag.title))])]);
-    }), 0), _vm._v(" "), _c("td", [_c("div", {
+    }), _vm._v(" "), _c("div", {
       staticClass: "btn-group",
       attrs: {
         role: "group"
@@ -3222,13 +3234,25 @@ var render = function render() {
           return _vm.deletePost(post.id);
         }
       }
-    }, [_vm._v("Удалить")])])])]);
-  }), 0)])], 1);
+    }, [_vm._v("Удалить")])])], 2);
+  })], 2);
 };
 var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("thead", [_c("tr", [_c("th"), _vm._v(" "), _c("th", [_vm._v("Название")])])]);
+  return _c("div", {
+    staticClass: "post-preview"
+  }, [_c("a", {
+    attrs: {
+      href: "#"
+    }
+  }, [_c("img", {
+    staticClass: "img-fluid rounded",
+    attrs: {
+      src: "images/blog/blog-1.jpg",
+      alt: ""
+    }
+  })])]);
 }];
 render._withStripped = true;
 
@@ -3567,20 +3591,17 @@ var render = function render() {
     }
   }) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "col-md-6"
-  }, [_c("h1", {
-    staticClass: "display-5 fw-bold"
-  }, [_vm._v(_vm._s(_vm.product.title))]), _vm._v(" "), _c("div", {
-    staticClass: "col-lg-6 mx-auto"
-  }, [_c("p", {
-    staticClass: "lead mb-4"
-  }, [_vm._v(_vm._s(_vm.product.description))])]), _vm._v(" "), _c("button", {
-    staticClass: "btn btn-danger",
-    on: {
-      click: function click($event) {
-        return _vm.deleteProduct(_vm.product.id);
-      }
+  }, [_c("div", {
+    staticClass: "post-header"
+  }, [_c("h2", {
+    staticClass: "post-title"
+  }, [_c("a", {
+    attrs: {
+      href: "#"
     }
-  }, [_vm._v("Удалить")]), _vm._v(" "), _c("router-link", {
+  }, [_vm._v(_vm._s(_vm.product.title))])])]), _vm._v(" "), _c("div", {
+    staticClass: "post-content"
+  }, [_c("p", [_vm._v(_vm._s(_vm.product.description))])]), _vm._v(" "), _c("router-link", {
     attrs: {
       to: {
         name: "index"

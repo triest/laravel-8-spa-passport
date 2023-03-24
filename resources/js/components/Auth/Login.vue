@@ -35,13 +35,14 @@ export default {
     methods: {
         saveForm() {
             this.axios.post('/api/login', this.form).then((r) => {
-                localStorage.setItem('isLogin', true);
-                localStorage.setItem('token', r.data.token);
-                localStorage.setItem('user.id', r.data.user.id);
-                localStorage.setItem('user.login', r.data.user.login);
+                let temp = r;
+                localStorage.setItem('user_id', temp.data.user_id);
+                localStorage.setItem('token', temp.data.token);
                 this.$router.push({name: 'index'})
             }).catch((error) => {
                 console.log("false")
+                localStorage.removeItem('user_id');
+                localStorage.removeItem('token');
                // localStorage.setItem('isLogin', false);
             })
 

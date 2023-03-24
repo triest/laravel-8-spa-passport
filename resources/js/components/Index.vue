@@ -6,29 +6,27 @@
         <input type="checkbox" id="checkbox" v-model="myPostsFilter" @click="getPosts()">
         <label for="checkbox">Мои посты</label>
         </span>
-        <table class="table">
-            <thead>
-            <tr>
-                <th></th>
-                <th>Название</th>
-            </tr>
-            </thead>
-            <tbody>
 
-            <tr v-for="post in posts" :key="post.id">
-                <td>{{ post.title }}</td>
-                <td>
+
+            <span v-for="post in posts" :key="post.id">
+                    <div class="post-header">
+                        <h2 class="post-title"><router-link :to="{name: 'view', params: { id: post.id }}" href="">{{post.title}}</router-link></h2>
+                    </div>
+
+                    <div class="post-preview">
+                        <a href="#"><img src="images/blog/blog-1.jpg" alt="" class="img-fluid rounded"></a>
+                    </div>
+
+
                     <div class="btn-group" role="group">
                         <router-link :to="{name: 'view', params: { id: post.id }}" class="btn btn-success">Смотреть
                         </router-link>
                     </div>
-                </td>
-                <td>
+
                     <span v-for="(tag, index) in post.tags">
                         <span v-if="index != 0">, </span><span>{{ tag.title }}</span>
                     </span>
-                </td>
-                <td>
+
                     <div class="btn-group" role="group">
                         <router-link :to="{name: 'edit', params: { id: post.id }}" class="btn btn-success">
                             Редактировать
@@ -37,11 +35,9 @@
                     <div class="btn-group" role="group">
                         <button class="btn btn-danger" @click="deletePost(post.id)">Удалить</button>
                     </div>
-                </td>
-            </tr>
 
-            </tbody>
-        </table>
+            </span>
+
     </div>
 </template>
 
@@ -51,15 +47,15 @@ export default {
     data() {
         return {
             posts: [],
-            myPostsFilter: true
+            myPostsFilter: false
         }
     },
     computed: {
         checkIsLogin: function (){
-            console.log(localStorage.getItem('isLogin'))
-
-            if(localStorage.getItem('isLogin')==='true'){
-                console.log('isLogin == true');
+            console.log(localStorage.getItem('isLogin'));
+            console.log(localStorage.getItem('user_id'));
+            if(localStorage.getItem('user_id')!== undefined){
+                console.log()
                 return true;
             }else {
                 return  false

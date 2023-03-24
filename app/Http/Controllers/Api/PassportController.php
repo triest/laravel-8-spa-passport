@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
@@ -54,7 +55,7 @@ class PassportController extends Controller
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken('LaravelAuthApp')->accessToken;
-                $response = ['token' => $token, 'user.login' => $user->name, 'user.id' => $user->id];
+                $response = ['token' => $token, 'user_login' => $user->name, 'user_id' => $user->id];
 
                 return response($response, 200);
             } else {
@@ -65,5 +66,10 @@ class PassportController extends Controller
             $response = ["message" => 'User does not exist'];
             return response($response, 422);
         }
+    }
+
+
+    public function logout(Request $request){
+         Auth::user()->token()->revoke();
     }
 }

@@ -32,7 +32,6 @@ class PostService
         $post = Post::create($data['data']);
 
         $user = Auth::user();
-
         $post->user()->associate($user);
 
         $post->save();
