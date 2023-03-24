@@ -43,7 +43,6 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        dump($request->validated());
         $post = $this->postService->store($request->validated());
 
         return PostResource::make($post);

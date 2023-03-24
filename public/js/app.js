@@ -2332,7 +2332,9 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    this.getPosts();
+  },
   methods: {
     getPosts: function getPosts() {
       var _this = this;
@@ -2388,23 +2390,72 @@ __webpack_require__.r(__webpack_exports__);
     return {
       product: {},
       errors: null,
-      modalOpen: true
+      modalOpen: true,
+      tags: [],
+      tagsId: [],
+      inPutShow: false,
+      searchTagName: null,
+      searchingTags: [],
+      postTags: []
     };
   },
   methods: {
-    clouseModal: function clouseModal() {},
-    addProduct: function addProduct() {
+    getTags: function getTags() {
       var _this = this;
-      this.axios.post('/api/post', this.product).then(function (response) {
-        return _this.$router.push({
-          name: 'index'
-        });
+      this.axios.get("/api/tag").then(function (res) {
+        _this.tags = res.data.data;
+      });
+    },
+    addTag: function addTag(tag) {
+      this.tagsId.push(tag.id);
+      this.postTags.push(tag);
+    },
+    deleteTag: function deleteTag(tag_id) {
+      this.postTags = this.postTags.filter(function (item) {
+        return item.id !== tag_id;
+      });
+    },
+    addPost: function addPost() {
+      var _this2 = this;
+      var that = this;
+      this.axios.post('/api/post', {
+        data: this.product,
+        tags: this.tagsId
+      }).then(function (response) {
+        return function () {
+          console.log(response.data);
+          this.$router.push({
+            name: 'index'
+          });
+        };
       })["catch"](function (err) {
         if (err.response.status === 422) {
-          _this.errors = err.response.data.errors;
+          _this2.errors = err.response.data.errors;
         }
       })["finally"](function () {
-        return _this.loading = false;
+        return function () {
+          this.addTagToPost();
+          this.$router.push({
+            name: 'index'
+          });
+        };
+      });
+      this.$router.push({
+        name: 'index'
+      });
+    },
+    showInputTag: function showInputTag() {
+      this.inPutShow = !this.inPutShow;
+    },
+    searchTag: function searchTag() {
+      var _this3 = this;
+      var params = {
+        query: this.searchTagName
+      };
+      this.axios.get('/api/tag', {
+        params: params
+      }).then(function (res) {
+        _this3.searchingTags = res.data.data;
       });
     }
   }
@@ -2469,11 +2520,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
       this.axios.get("/api/post/".concat(this.$route.params.id)).then(function (res) {
         _this3.post = res.data.data;
-        console.log(_this3.post);
-        console.log(_this3.tagsId);
         var that = _this3;
         _this3.postTags = _this3.post.tags;
-        console.log(_this3.postTags);
         _this3.post.tags.forEach(function (item) {
           that.tagsId.push(item.id);
         });
@@ -2505,7 +2553,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     deleteTag: function deleteTag(tag_id) {
       var _this6 = this;
-      console.log(this.tagsId);
       this.tagsId = this.tagsId.filter(function (item) {
         return item !== tag_id;
       });
@@ -3222,7 +3269,7 @@ var render = function render() {
     on: {
       submit: function submit($event) {
         $event.preventDefault();
-        return _vm.addProduct.apply(null, arguments);
+        return _vm.addPost.apply(null, arguments);
       }
     }
   }, [_c("div", {
@@ -3280,7 +3327,43 @@ var render = function render() {
         name: "index"
       }
     }
-  }, [_vm._v("Главная")])], 1)])], 1)]);
+  }, [_vm._v("Главная")])], 1)]), _vm._v(" "), _c("button", {
+    on: {
+      click: _vm.showInputTag
+    }
+  }, [_vm._v(" Добавить тег")]), _vm._v(" "), _vm.inPutShow ? _c("div", [_c("label", [_vm._v("Введите тег")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.searchTagName,
+      expression: "searchTagName"
+    }],
+    domProps: {
+      value: _vm.searchTagName
+    },
+    on: {
+      input: [function ($event) {
+        if ($event.target.composing) return;
+        _vm.searchTagName = $event.target.value;
+      }, _vm.searchTag]
+    }
+  }), _vm._v(" "), _vm._l(_vm.searchingTags, function (searchingTag) {
+    return _c("span", [_c("button", {
+      on: {
+        click: function click($event) {
+          return _vm.addTag(searchingTag);
+        }
+      }
+    }, [_vm._v(_vm._s(searchingTag.title))])]);
+  })], 2) : _vm._e(), _vm._v(" "), _vm._l(_vm.postTags, function (tag) {
+    return _c("div", [_vm._v("\n            " + _vm._s(tag.title) + "\n            "), _c("button", {
+      on: {
+        click: function click($event) {
+          return _vm.deleteTag(tag.id);
+        }
+      }
+    }, [_vm._v("Удалить")])]);
+  })], 2)]);
 };
 var staticRenderFns = [];
 render._withStripped = true;

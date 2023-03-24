@@ -84,11 +84,8 @@ export default {
                 .then((res) => {
 
                     this.post = res.data.data;
-                    console.log(this.post)
-                    console.log(this.tagsId);
                     let that = this;
                     this.postTags = this.post.tags;
-                    console.log(this.postTags)
                     this.post.tags.forEach(function (item) {
                         that.tagsId.push(item.id)
 
@@ -120,8 +117,6 @@ export default {
                 })
         },
         deleteTag(tag_id) {
-            console.log(this.tagsId)
-
             this.tagsId = this.tagsId.filter(function (item) {
                 return item !== tag_id;
             });

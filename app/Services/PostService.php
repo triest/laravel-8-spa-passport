@@ -28,7 +28,8 @@ class PostService
 
     public function store($data)
     {
-        $post = Post::create($data);
+        DB::beginTransaction();
+        $post = Post::create($data['data']);
 
         $user = Auth::user();
 
@@ -36,6 +37,14 @@ class PostService
 
         $post->save();
 
+        foreach ($data['tags'] as $tagID){
+            $tag = Tag::where('id',$tagID)->firstOrFail();
+            $post->tags()->save($tag);
+
+        }
+
+
+        DB::commit();
         return $post;
     }
 
