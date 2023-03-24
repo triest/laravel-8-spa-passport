@@ -2136,9 +2136,14 @@ __webpack_require__.r(__webpack_exports__);
       this.axios.post('/api/login', this.form).then(function (r) {
         localStorage.setItem('isLogin', true);
         localStorage.setItem('token', r.data.token);
-        _this.$router.go('index');
+        localStorage.setItem('user.id', r.data.user.id);
+        localStorage.setItem('user.login', r.data.user.login);
+        _this.$router.push({
+          name: 'index'
+        });
       })["catch"](function (error) {
-        localStorage.setItem('isLogin', false);
+        console.log("false");
+        // localStorage.setItem('isLogin', false);
       });
     }
   }
@@ -2316,25 +2321,26 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    var _this = this;
-    this.axios.get('/api/post/').then(function (response) {
-      _this.products = response.data.data;
-    });
+    this.getPosts();
   },
   mounted: function mounted() {},
   methods: {
-    deleteProduct: function deleteProduct(id) {
+    getPosts: function getPosts() {
+      var _this = this;
+      this.axios.get('/api/post/').then(function (response) {
+        _this.products = response.data.data;
+      });
+    },
+    deletePost: function deletePost(id) {
       var _this2 = this;
-      var result = window.confirm("Delete product?");
+      var result = window.confirm("Удалить пост?");
       if (!result) {
         return;
       }
-      this.axios["delete"]("/api/products/".concat(id)).then(function (response) {
-        var i = _this2.products.map(function (data) {
-          return data.id;
-        }).indexOf(id);
-        _this2.products.splice(i, 1);
+      this.axios["delete"]("/api/post/".concat(id)).then(function (response) {
+        _this2.getPosts();
       });
+      this.getPosts();
     }
   }
 });
@@ -2406,8 +2412,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    ErrorsModal: _ErrorsModal_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    TagList: _TagList_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    ErrorsModal: _ErrorsModal_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    //    TagList
   },
   data: function data() {
     return {
@@ -3050,22 +3056,19 @@ var render = function render() {
           }
         }
       }
-    }, [_vm._v("удалить")])], 1), _vm._v(" "), _c("div", {
+    }, [_vm._v("Редактировать")])], 1), _vm._v(" "), _c("div", {
       staticClass: "btn-group",
       attrs: {
         role: "group"
       }
-    }, [_c("router-link", {
-      staticClass: "btn btn-success",
-      attrs: {
-        to: {
-          name: "edit",
-          params: {
-            id: product.id
-          }
+    }, [_c("button", {
+      staticClass: "btn btn-danger",
+      on: {
+        click: function click($event) {
+          return _vm.deletePost(product.id);
         }
       }
-    }, [_vm._v("Редактировать")])], 1)])]);
+    }, [_vm._v("Удалить")])])])]);
   }), 0)])]);
 };
 var staticRenderFns = [function () {
@@ -3271,7 +3274,7 @@ var render = function render() {
         name: "index"
       }
     }
-  }, [_vm._v("Back")])], 1)]), _vm._v(" "), _c("TagList")], 1)]);
+  }, [_vm._v("Back")])], 1)])], 1)]);
 };
 var staticRenderFns = [];
 render._withStripped = true;

@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\Post;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PostService
@@ -21,6 +22,12 @@ class PostService
     public function store($data){
 
         $post = Post::create($data);
+
+        $user = Auth::user();
+
+        $post->user()->associate($user);
+
+        $post->save();
 
         return $post;
 

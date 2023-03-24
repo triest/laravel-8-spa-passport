@@ -69,9 +69,11 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Post $post)
     {
-        //
+        $this->destroy($post);
+
+        return response()->setStatusCode(204);
     }
 
     /**

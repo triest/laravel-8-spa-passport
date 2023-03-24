@@ -20,11 +20,11 @@
                     </div>
                 <td>
                     <div class="btn-group" role="group">
-                        <router-link :to="{name: 'edit', params: { id: product.id }}" class="btn btn-success">удалить</router-link>
-                    </div>
-                    <div class="btn-group" role="group">
                         <router-link :to="{name: 'edit', params: { id: product.id }}" class="btn btn-success">Редактировать</router-link>
                     </div>
+                <div class="btn-group" role="group">
+                    <button class="btn btn-danger" @click="deletePost(product.id)">Удалить</button>
+                </div>
                 </td>
             </tr>
 
@@ -42,26 +42,31 @@ export default {
         }
     },
     created() {
-        this.axios
-            .get('/api/post/')
-            .then(response => {
-                this.products = response.data.data;
-            });
+       this.getPosts();
     },
     mounted() {
     },
     methods: {
-        deleteProduct(id) {
-            let result = window.confirm("Delete product?");
+
+        getPosts(){
+            this.axios
+                .get('/api/post/')
+                .then(response => {
+                    this.products = response.data.data;
+                });
+        },
+
+        deletePost(id) {
+            let result = window.confirm("Удалить пост?");
             if (!result) {
                 return;
             }
             this.axios
-                .delete(`/api/products/${id}`)
+                .delete(`/api/post/${id}`)
                 .then(response => {
-                    let i = this.products.map(data => data.id).indexOf(id);
-                    this.products.splice(i, 1)
+                    this.getPosts();
                 });
+            this.getPosts();
         }
     }
 }

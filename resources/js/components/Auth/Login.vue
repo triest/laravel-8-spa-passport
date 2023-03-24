@@ -37,9 +37,12 @@ export default {
             this.axios.post('/api/login', this.form).then((r) => {
                 localStorage.setItem('isLogin', true);
                 localStorage.setItem('token', r.data.token);
-                this.$router.go('index')
+                localStorage.setItem('user.id', r.data.user.id);
+                localStorage.setItem('user.login', r.data.user.login);
+                this.$router.push({name: 'index'})
             }).catch((error) => {
-                localStorage.setItem('isLogin', false);
+                console.log("false")
+               // localStorage.setItem('isLogin', false);
             })
 
         }

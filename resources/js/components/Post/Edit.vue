@@ -17,7 +17,7 @@
                     <router-link :to="{name: 'index'}" class="btn btn-success">Back</router-link>
                 </form>
             </div>
-            <TagList></TagList>
+
         </div>
     </div>
 </template>
@@ -28,7 +28,7 @@ import TagList from "./TagList.vue";
 export default {
     components:{
         ErrorsModal,
-        TagList
+   //    TagList
     },
     data() {
         return {
