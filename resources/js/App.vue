@@ -9,9 +9,7 @@
                         <li>
                             <router-link :to="{name: 'index'}">Главная</router-link>
                         </li>
-                        <li>
-                            <router-link :to="{name: 'create'}" v-if="checkIsLogin">Создать</router-link>
-                        </li>
+
                         <li>
                             <router-link   :to="{name: 'login'}" v-if="!checkIsLogin" >Войти</router-link>
                         </li>

@@ -2317,18 +2317,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      products: []
+      posts: [],
+      myPostsFilter: true
     };
   },
-  created: function created() {
-    this.getPosts();
+  computed: {
+    checkIsLogin: function checkIsLogin() {
+      console.log(localStorage.getItem('isLogin'));
+      if (localStorage.getItem('isLogin') === 'true') {
+        console.log('isLogin == true');
+        return true;
+      } else {
+        return false;
+      }
+    }
   },
   mounted: function mounted() {},
   methods: {
     getPosts: function getPosts() {
       var _this = this;
-      this.axios.get('/api/post/').then(function (response) {
-        _this.products = response.data.data;
+      var params = {};
+      if (this.myPostsFilter === false) {
+        params = {
+          my: true
+        };
+      }
+      this.axios.get('/api/post/', {
+        params: params
+      }).then(function (response) {
+        _this.posts = response.data.data;
       });
     },
     deletePost: function deletePost(id) {
@@ -2407,8 +2424,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _ErrorsModal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ErrorsModal.vue */ "./resources/js/components/ErrorsModal.vue");
-/* harmony import */ var _TagList_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TagList.vue */ "./resources/js/components/Post/TagList.vue");
-
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -2419,7 +2434,12 @@ __webpack_require__.r(__webpack_exports__);
     return {
       post: {},
       tags: {},
-      errors: null
+      tagsId: [],
+      postTags: [],
+      errors: null,
+      inPutShow: false,
+      searchTagName: null,
+      serchingTags: {}
     };
   },
   created: function created() {
@@ -2427,9 +2447,9 @@ __webpack_require__.r(__webpack_exports__);
     this.getTags();
   },
   methods: {
-    updateProduct: function updateProduct() {
+    updatePost: function updatePost() {
       var _this = this;
-      this.axios.patch("/api/post/".concat(this.$route.params.id), this.post).then(function (res) {
+      this.axios.put("/api/post/".concat(this.$route.params.id), this.post).then(function (res) {
         _this.$router.push({
           name: 'index'
         });
@@ -2449,6 +2469,51 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
       this.axios.get("/api/post/".concat(this.$route.params.id)).then(function (res) {
         _this3.post = res.data.data;
+        console.log(_this3.post);
+        console.log(_this3.tagsId);
+        var that = _this3;
+        _this3.postTags = _this3.post.tags;
+        console.log(_this3.postTags);
+        _this3.post.tags.forEach(function (item) {
+          that.tagsId.push(item.id);
+        });
+      });
+    },
+    showInputTag: function showInputTag() {
+      this.inPutShow = !this.inPutShow;
+    },
+    searchTag: function searchTag() {
+      var _this4 = this;
+      var params = {
+        query: this.searchTagName
+      };
+      this.axios.get('/api/tag', {
+        params: params
+      }).then(function (res) {
+        _this4.serchingTags = res.data.data;
+      });
+    },
+    addTag: function addTag(tag_id) {
+      var _this5 = this;
+      this.tagsId.push(tag_id);
+      this.axios.post('/api/post/' + this.post.id + '/tag/bulk', {
+        data: this.tagsId
+      }).then(function (res) {
+        _this5.getTags();
+        _this5.getPost();
+      });
+    },
+    deleteTag: function deleteTag(tag_id) {
+      var _this6 = this;
+      console.log(this.tagsId);
+      this.tagsId = this.tagsId.filter(function (item) {
+        return item !== tag_id;
+      });
+      this.axios.post('/api/post/' + this.post.id + '/tag/bulk', {
+        data: this.tagsId
+      }).then(function (res) {
+        _this6.getTags();
+        _this6.getPost();
       });
     }
   }
@@ -2622,13 +2687,7 @@ var render = function render() {
         name: "index"
       }
     }
-  }, [_vm._v("Главная")])], 1), _vm._v(" "), _c("li", [_vm.checkIsLogin ? _c("router-link", {
-    attrs: {
-      to: {
-        name: "create"
-      }
-    }
-  }, [_vm._v("Создать")]) : _vm._e()], 1), _vm._v(" "), _c("li", [!_vm.checkIsLogin ? _c("router-link", {
+  }, [_vm._v("Главная")])], 1), _vm._v(" "), _c("li", [!_vm.checkIsLogin ? _c("router-link", {
     attrs: {
       to: {
         name: "login"
@@ -3021,12 +3080,58 @@ var render = function render() {
     _c = _vm._self._c;
   return _c("div", [_c("h2", {
     staticClass: "text-center"
-  }, [_vm._v("Посты1")]), _vm._v(" "), _c("table", {
+  }, [_vm._v("Посты1")]), _vm._v(" "), _c("router-link", {
+    staticClass: "btn btn-success",
+    attrs: {
+      to: {
+        name: "create"
+      }
+    }
+  }, [_vm._v("Создать")]), _vm._v(" "), _vm.checkIsLogin ? _c("span", [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.myPostsFilter,
+      expression: "myPostsFilter"
+    }],
+    attrs: {
+      type: "checkbox",
+      id: "checkbox"
+    },
+    domProps: {
+      checked: Array.isArray(_vm.myPostsFilter) ? _vm._i(_vm.myPostsFilter, null) > -1 : _vm.myPostsFilter
+    },
+    on: {
+      click: function click($event) {
+        return _vm.getPosts();
+      },
+      change: function change($event) {
+        var $$a = _vm.myPostsFilter,
+          $$el = $event.target,
+          $$c = $$el.checked ? true : false;
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.myPostsFilter = $$a.concat([$$v]));
+          } else {
+            $$i > -1 && (_vm.myPostsFilter = $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+          }
+        } else {
+          _vm.myPostsFilter = $$c;
+        }
+      }
+    }
+  }), _vm._v(" "), _c("label", {
+    attrs: {
+      "for": "checkbox"
+    }
+  }, [_vm._v("Мои посты")])]) : _vm._e(), _vm._v(" "), _c("table", {
     staticClass: "table"
-  }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.products, function (product) {
+  }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.posts, function (post) {
     return _c("tr", {
-      key: product.id
-    }, [_c("td", [_vm._v(_vm._s(product.title))]), _vm._v(" "), _c("td", [_c("div", {
+      key: post.id
+    }, [_c("td", [_vm._v(_vm._s(post.title))]), _vm._v(" "), _c("td", [_c("div", {
       staticClass: "btn-group",
       attrs: {
         role: "group"
@@ -3037,11 +3142,13 @@ var render = function render() {
         to: {
           name: "view",
           params: {
-            id: product.id
+            id: post.id
           }
         }
       }
-    }, [_vm._v("Смотреть\n                    ")])], 1)]), _c("td", [_c("div", {
+    }, [_vm._v("Смотреть\n                    ")])], 1)]), _vm._v(" "), _c("td", _vm._l(post.tags, function (tag, index) {
+      return _c("span", [index != 0 ? _c("span", [_vm._v(", ")]) : _vm._e(), _c("span", [_vm._v(_vm._s(tag.title))])]);
+    }), 0), _vm._v(" "), _c("td", [_c("div", {
       staticClass: "btn-group",
       attrs: {
         role: "group"
@@ -3052,11 +3159,11 @@ var render = function render() {
         to: {
           name: "edit",
           params: {
-            id: product.id
+            id: post.id
           }
         }
       }
-    }, [_vm._v("Редактировать")])], 1), _vm._v(" "), _c("div", {
+    }, [_vm._v("\n                        Редактировать\n                    ")])], 1), _vm._v(" "), _c("div", {
       staticClass: "btn-group",
       attrs: {
         role: "group"
@@ -3065,11 +3172,11 @@ var render = function render() {
       staticClass: "btn btn-danger",
       on: {
         click: function click($event) {
-          return _vm.deletePost(product.id);
+          return _vm.deletePost(post.id);
         }
       }
     }, [_vm._v("Удалить")])])])]);
-  }), 0)])]);
+  }), 0)])], 1);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -3215,7 +3322,7 @@ var render = function render() {
     on: {
       submit: function submit($event) {
         $event.preventDefault();
-        return _vm.updateProduct.apply(null, arguments);
+        return _vm.updatePost.apply(null, arguments);
       }
     }
   }, [_c("div", {
@@ -3274,7 +3381,43 @@ var render = function render() {
         name: "index"
       }
     }
-  }, [_vm._v("Back")])], 1)])], 1)]);
+  }, [_vm._v("Back")])], 1), _vm._v(" "), _vm._l(_vm.postTags, function (tag) {
+    return _c("div", [_vm._v("\n                " + _vm._s(tag.title) + "\n                "), _c("button", {
+      on: {
+        click: function click($event) {
+          return _vm.deleteTag(tag.id);
+        }
+      }
+    }, [_vm._v("Удалить")])]);
+  })], 2), _vm._v(" "), _c("button", {
+    on: {
+      click: _vm.showInputTag
+    }
+  }, [_vm._v(" Добавить тег")]), _vm._v(" "), _vm.inPutShow ? _c("div", [_c("label", [_vm._v("Введите тег")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.searchTagName,
+      expression: "searchTagName"
+    }],
+    domProps: {
+      value: _vm.searchTagName
+    },
+    on: {
+      input: [function ($event) {
+        if ($event.target.composing) return;
+        _vm.searchTagName = $event.target.value;
+      }, _vm.searchTag]
+    }
+  }), _vm._v(" "), _vm._l(_vm.serchingTags, function (searchingTag) {
+    return _c("span", [_c("button", {
+      on: {
+        click: function click($event) {
+          return _vm.addTag(searchingTag.id);
+        }
+      }
+    }, [_vm._v(_vm._s(searchingTag.title))])]);
+  })], 2) : _vm._e()], 1)]);
 };
 var staticRenderFns = [];
 render._withStripped = true;

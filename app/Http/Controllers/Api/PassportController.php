@@ -47,14 +47,14 @@ class PassportController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function login(Request $request): \Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
-    {
+    public function login(Request $request
+    ): \Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory {
         $user = User::where('email', $request->email)->first();
 
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken('LaravelAuthApp')->accessToken;
-                $response = ['token' => $token,'user.login' => $user->name, 'user.id'=>$user->id];
+                $response = ['token' => $token, 'user.login' => $user->name, 'user.id' => $user->id];
 
                 return response($response, 200);
             } else {
@@ -62,7 +62,7 @@ class PassportController extends Controller
                 return response($response, 422);
             }
         } else {
-            $response = ["message" =>'User does not exist'];
+            $response = ["message" => 'User does not exist'];
             return response($response, 422);
         }
     }

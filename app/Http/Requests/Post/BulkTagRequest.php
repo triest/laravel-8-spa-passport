@@ -22,7 +22,8 @@ class BulkTagRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'exists:tags,id',
+            "data" => 'array',
+            "data.*" => 'exists:tags,id',
         ];
     }
 }

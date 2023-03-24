@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Post;
 
+use App\Http\Resources\Tag\TagResource;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -20,8 +21,9 @@ class PostCollection extends ResourceCollection
              */ function ($item) {
                 return [
                     'id' => $item->id,
-                    'title' => $item->name,
+                    'title' => $item->title,
                     'user' => $item->user ? UserResource::make($item->user) : null,
+                    'tags' => $item->tags ? TagResource::collection($item->tags) : []
                 ];
             }),
             'links' => [

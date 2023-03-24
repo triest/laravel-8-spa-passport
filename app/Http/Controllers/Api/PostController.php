@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\BulkTagRequest;
 use App\Http\Requests\Post\IndexPostRequest;
 use App\Http\Requests\Post\StorePostRequest;
+use App\Http\Requests\Post\UpdatePostRequest;
 use App\Http\Resources\Post\PostCollection;
 use App\Http\Resources\Post\PostResource;
 use App\Http\Resources\Tag\TagResource;
@@ -32,7 +33,7 @@ class PostController extends Controller
      */
     public function index(IndexPostRequest $request)
     {
-        $posts = $this->postService->index($request->validated());
+        $posts = $this->postService->index($request);
 
         return PostCollection::make($posts);
     }
@@ -42,6 +43,7 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
+        dump($request->validated());
         $post = $this->postService->store($request->validated());
 
         return PostResource::make($post);
@@ -59,7 +61,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post)
     {
         $post = $this->postService->update($post, $request->validated());
 
@@ -71,7 +73,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        $this->destroy($post);
+        $this->postService->delete($post);
 
         return response()->setStatusCode(204);
     }
@@ -81,8 +83,10 @@ class PostController extends Controller
      * @param BulkTagRequest $request
      * @return AnonymousResourceCollection
      */
-    public function bulk(Post $post, BulkTagRequest $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-    {
+    public function bulk(
+        Post $post,
+        BulkTagRequest $request
+    ): \Illuminate\Http\Resources\Json\AnonymousResourceCollection {
         $tags = $this->postService->bulk($post, $request->validated());
 
         return TagResource::collection($tags);

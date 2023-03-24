@@ -22,7 +22,7 @@ class IndexTagRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'query' => 'nullable|string|max:255',
         ];
     }
 }
